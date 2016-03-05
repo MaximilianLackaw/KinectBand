@@ -222,12 +222,10 @@ namespace Kinect.KinectBand
                 {
                     this.Confidence = detectionConfidence;
                     this.ImageSource = this.seatedImage;
-                    this.drums.Play();
                 }
                 else
                 {
                     this.ImageSource = this.notSeatedImage;
-                    this.drums.Stop();
                 }
             }
         }

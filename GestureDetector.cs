@@ -11,6 +11,8 @@ namespace Kinect.KinectBand
     using Microsoft.Kinect;
     using Microsoft.Kinect.VisualGestureBuilder;
 
+    using System.Linq;
+    using Instruments;
     /// <summary>
     /// Gesture Detector class which listens for VisualGestureBuilderFrame events from the service
     /// and updates the associated GestureResultView object with the latest results for the 'Seated' gesture
@@ -21,7 +23,15 @@ namespace Kinect.KinectBand
         private readonly string gestureDatabase = @"Database\GestureBuilderTest.gbd";
 
         /// <summary> Name of the discrete gesture in the database that we want to track </summary>
-        private readonly string seatedGestureName = "Drum";
+        private readonly string drumGestureName = "Drum";
+
+        private readonly string guitarGestureName = "Gitare";
+
+        private readonly IInstrument drum = new Drum();
+
+        private readonly IInstrument guitare = new Guitare();
+
+        private readonly IInstrument percussions = new Percussions();
 
         /// <summary> Gesture frame source which should be tied to a body tracking ID </summary>
         private VisualGestureBuilderFrameSource vgbFrameSource = null;
@@ -67,7 +77,7 @@ namespace Kinect.KinectBand
                 // but for this program, we only want to track one discrete gesture from the database, so we'll load it by name
                 foreach (Gesture gesture in database.AvailableGestures)
                 {
-                    if (gesture.Name.Equals(this.seatedGestureName))
+                    if (gesture.Name.Equals(this.drumGestureName))
                     {
                         this.vgbFrameSource.AddGesture(gesture);
                     }
@@ -161,30 +171,37 @@ namespace Kinect.KinectBand
             VisualGestureBuilderFrameReference frameReference = e.FrameReference;
             using (VisualGestureBuilderFrame frame = frameReference.AcquireFrame())
             {
-                if (frame != null)
+                var recognized = GetRecognizedGestures(frame, this.vgbFrameSource.Gestures).ToList();
+
+                recognized.ForEach(x =>
                 {
-                    // get the discrete gesture results which arrived with the latest frame
-                    IReadOnlyDictionary<Gesture, DiscreteGestureResult> discreteResults = frame.DiscreteGestureResults;
+                    x.UpdateGestureResult();
+                });
 
-                    if (discreteResults != null)
-                    {
-                        // we only have one gesture in this source object, but you can get multiple gestures
-                        foreach (Gesture gesture in this.vgbFrameSource.Gestures)
-                        {
-                            if (gesture.Name.Equals(this.seatedGestureName) && gesture.GestureType == GestureType.Discrete)
-                            {
-                                DiscreteGestureResult result = null;
-                                discreteResults.TryGetValue(gesture, out result);
+                ////if (frame != null)
+                ////{
+                ////    // get the discrete gesture results which arrived with the latest frame
+                ////    IReadOnlyDictionary<Gesture, DiscreteGestureResult> discreteResults = frame.DiscreteGestureResults;
 
-                                if (result != null)
-                                {
-                                    // update the GestureResultView object with new gesture result values
-                                    this.GestureResultView.UpdateGestureResult(true, result.Detected, result.Confidence);
-                                }
-                            }
-                        }
-                    }
-                }
+                ////    if (discreteResults != null)
+                ////    {
+                ////        // we only have one gesture in this source object, but you can get multiple gestures
+                ////        foreach (Gesture gesture in this.vgbFrameSource.Gestures)
+                ////        {
+                ////            if (gesture.Name.Equals(this.guitarGestureName) && gesture.GestureType == GestureType.Discrete)
+                ////            {
+                ////                DiscreteGestureResult result = null;
+                ////                discreteResults.TryGetValue(gesture, out result);
+
+                ////                if (result != null)
+                ////                {
+                ////                    // update the GestureResultView object with new gesture result values
+                ////                    this.GestureResultView.UpdateGestureResult(true, result.Detected, result.Confidence);
+                ////                }
+                ////            }
+                ////        }
+                ////   }
+                ////}
             }
         }
 
@@ -197,6 +214,54 @@ namespace Kinect.KinectBand
         {
             // update the GestureResultView object to show the 'Not Tracked' image in the UI
             this.GestureResultView.UpdateGestureResult(false, false, 0.0f);
+        }
+
+        private IEnumerable<InstrumentGesture>  GetRecognizedGestures(VisualGestureBuilderFrame frame, IReadOnlyCollection<Gesture> gestures)
+        {
+            if (frame == null)
+            {
+                yield break;
+            }
+
+            var recognizedGestures = new HashSet<string>(new[] { "Drum", "Gitare", "Percussions" });
+            
+            // get the discrete gesture results which arrived with the latest frame
+            IReadOnlyDictionary<Gesture, DiscreteGestureResult> discreteResults = frame.DiscreteGestureResults;
+
+            if (discreteResults != null)
+            {
+                // we only have one gesture in this source object, but you can get multiple gestures
+                foreach (Gesture gesture in gestures)
+                {
+                    if (gesture.GestureType == GestureType.Discrete && recognizedGestures.Contains(gesture.Name))
+                    {
+                        DiscreteGestureResult result = null;
+                        discreteResults.TryGetValue(gesture, out result);
+
+                        if (result != null)
+                        {
+                            IInstrument instrument;
+                            switch (gesture.Name)
+                            {
+                                case "Drum":
+                                    instrument = this.drum;
+                                    break;
+                                case "Gitare":
+                                    instrument = this.guitare;
+                                    break;
+                                case "Percussions":
+                                    instrument = this.percussions;
+                                    break;
+                                default:
+                                    continue;
+                            }
+                            System.Console.WriteLine(gesture.Name);
+
+                            yield return new InstrumentGesture(result, instrument);
+                        }
+                    }
+                }
+            }
         }
     }
 }

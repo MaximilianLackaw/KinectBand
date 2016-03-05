@@ -103,7 +103,11 @@
     <Compile Include="InstrumentGesture.cs" />
     <Compile Include="Instruments\Drum.cs" />
     <Compile Include="Instruments\Guitare.cs" />
+<<<<<<< Updated upstream
+    <Compile Include="Instruments\Tambourine.cs" />
+=======
     <Compile Include="Instruments\Percussions.cs" />
+>>>>>>> Stashed changes
     <Compile Include="KinectBodyView.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -151,13 +155,16 @@
     <Resource Include="Images\Seated.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Database\Seated.gbd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Samples\Drum.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Guitare.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\Percussions.wav">
+    <Content Include="Samples\Tambourine.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -37,6 +37,7 @@ namespace Kinect.KinectBand.Instruments
         {
             if (!this.isPlaying)
             {
+               // System.Console.WriteLine(this.name);
                 player.PlayLooping();
             }
 
