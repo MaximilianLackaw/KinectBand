@@ -25,6 +25,8 @@ namespace Kinect.KinectBand
         /// <summary> Name of the discrete gesture in the database that we want to track </summary>
         private readonly string drumGestureName = "Drum";
 
+        private readonly HashSet<string> recognizedGestures = new HashSet<string>(new[] { "Drum", "Gitare", "Percussions" });
+
         private readonly string guitarGestureName = "Gitare";
 
         private readonly IInstrument drum = new Drum();
@@ -77,10 +79,10 @@ namespace Kinect.KinectBand
                 // but for this program, we only want to track one discrete gesture from the database, so we'll load it by name
                 foreach (Gesture gesture in database.AvailableGestures)
                 {
-                    if (gesture.Name.Equals(this.drumGestureName))
-                    {
+                    //if (this.recognizedGestures.Contains(gesture.Name))
+                    //{
                         this.vgbFrameSource.AddGesture(gesture);
-                    }
+                    //}
                 }
             }
         }
@@ -222,8 +224,6 @@ namespace Kinect.KinectBand
             {
                 yield break;
             }
-
-            var recognizedGestures = new HashSet<string>(new[] { "Drum", "Gitare", "Percussions" });
             
             // get the discrete gesture results which arrived with the latest frame
             IReadOnlyDictionary<Gesture, DiscreteGestureResult> discreteResults = frame.DiscreteGestureResults;
@@ -255,7 +255,7 @@ namespace Kinect.KinectBand
                                 default:
                                     continue;
                             }
-                            System.Console.WriteLine(gesture.Name);
+                           
 
                             yield return new InstrumentGesture(result, instrument);
                         }

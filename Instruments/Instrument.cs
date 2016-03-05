@@ -37,7 +37,7 @@ namespace Kinect.KinectBand.Instruments
         {
             if (!this.isPlaying)
             {
-               // System.Console.WriteLine(this.name);
+                System.Console.WriteLine("PLAY " + this.name);
                 player.PlayLooping();
             }
 
@@ -46,8 +46,14 @@ namespace Kinect.KinectBand.Instruments
 
         public void Stop()
         {
-            player.Stop();
-            this.isPlaying = false;
+            
+            if (this.isPlaying) {
+                System.Console.WriteLine("STOP " + this.name);
+                player.Stop();
+                this.isPlaying = false;
+            }
+            
+            
         }
     }
 }
