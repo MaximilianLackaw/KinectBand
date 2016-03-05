@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
+namespace Microsoft.Samples.Kinect.DiscreteGestureBasics.Instruments
 {
     public interface IInstrument
     {
@@ -13,19 +14,24 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         void Stop();
     }
 
-    public class DrumInstrument : IInstrument
+    public abstract class BaseInstrument : IInstrument
     {
-        System.Media.SoundPlayer player;
-
         private bool isPlaying;
+        private string name;
+        private SoundPlayer player;
 
-        public DrumInstrument()
+        public BaseInstrument(String name)
         {
-            player = new System.Media.SoundPlayer(@"Samples\A_Triplet_Riff_2a.wav");
+            this.player = new System.Media.SoundPlayer(string.Format("Samples\\{0}.wav", name));
+            this.name = name;
             player.Load();
             this.isPlaying = false;
         }
 
+        public string GetInstrumentName()
+        {
+            return this.name;
+        }
 
         public void Play()
         {

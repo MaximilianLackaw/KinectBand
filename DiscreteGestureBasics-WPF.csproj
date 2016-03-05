@@ -100,6 +100,8 @@
     </Compile>
     <Compile Include="GestureDetector.cs" />
     <Compile Include="GestureResultView.cs" />
+    <Compile Include="Instruments\Drum.cs" />
+    <Compile Include="Instruments\Guitare.cs" />
     <Compile Include="KinectBodyView.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -107,7 +109,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Instrument.cs" />
+    <Compile Include="Instruments\Instrument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -150,7 +152,7 @@
     <Content Include="Database\Seated.gbd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\A_Triplet_Riff_2a.wav">
+    <Content Include="Samples\Guitare.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

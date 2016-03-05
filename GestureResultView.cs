@@ -6,6 +6,7 @@
 
 namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
 {
+    using Instruments;
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -48,7 +49,7 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         /// <summary> True, if the body is currently being tracked </summary>
         private bool isTracked = false;
 
-        private IInstrument drums;
+        private Instruments.IInstrument drums;
 
         /// <summary>
         /// Initializes a new instance of the GestureResultView class and sets initial property values
@@ -66,7 +67,7 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
             this.ImageSource = this.notTrackedImage;
 
 
-            this.drums = new DrumInstrument();
+            this.drums = new Drum();
         }
 
         /// <summary>
