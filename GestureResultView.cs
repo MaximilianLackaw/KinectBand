@@ -48,6 +48,8 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         /// <summary> True, if the body is currently being tracked </summary>
         private bool isTracked = false;
 
+        private IInstrument drums;
+
         /// <summary>
         /// Initializes a new instance of the GestureResultView class and sets initial property values
         /// </summary>
@@ -62,6 +64,9 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
             this.Detected = detected;
             this.Confidence = confidence;
             this.ImageSource = this.notTrackedImage;
+
+
+            this.drums = new DrumInstrument();
         }
 
         /// <summary>
@@ -205,6 +210,7 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
                 this.ImageSource = this.notTrackedImage;
                 this.Detected = false;
                 this.BodyColor = Brushes.Gray;
+                
             }
             else
             {
@@ -215,10 +221,12 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
                 {
                     this.Confidence = detectionConfidence;
                     this.ImageSource = this.seatedImage;
+                    this.drums.Play();
                 }
                 else
                 {
                     this.ImageSource = this.notSeatedImage;
+                    this.drums.Stop();
                 }
             }
         }
