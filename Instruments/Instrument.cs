@@ -9,13 +9,14 @@ namespace Kinect.KinectBand.Instruments
 {
     public interface IInstrument
     {
-        void Play();
+        void Play(ulong trackingId);
 
-        void Stop();
+        void Stop(ulong trackingId);
     }
 
     public abstract class BaseInstrument : IInstrument
     {
+        private ulong id;
         private bool isPlaying;
         private string name;
         private SoundPlayer player;
@@ -33,22 +34,23 @@ namespace Kinect.KinectBand.Instruments
             return this.name;
         }
 
-        public void Play()
+        public void Play(ulong trackingId)
         {
             if (!this.isPlaying)
             {
-                System.Console.WriteLine("PLAY " + this.name);
+                //this.id = trackingId;
+                ////System.Console.WriteLine("PLAY " + this.name);
                 player.PlayLooping();
             }
 
             this.isPlaying = true;
         }
 
-        public void Stop()
+        public void Stop(ulong trackingId)
         {
             
             if (this.isPlaying) {
-                System.Console.WriteLine("STOP " + this.name);
+            //if (this.isPlaying && trackingId == id)
                 player.Stop();
                 this.isPlaying = false;
             }

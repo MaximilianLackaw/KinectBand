@@ -10,7 +10,7 @@ namespace Kinect.KinectBand
 {
     public interface IInstrumentGesture
     {
-        void UpdateGestureResult();
+        void UpdateGestureResult(ulong trackingId);
     }
 
     public class InstrumentGesture : IInstrumentGesture
@@ -24,15 +24,15 @@ namespace Kinect.KinectBand
             this.instrument = instrument;
         }
 
-        public void UpdateGestureResult()
+        public void UpdateGestureResult(ulong trackingId)
         {
             if (discreteGestureResult.Detected)
             {
-                instrument.Play();
+                instrument.Play(trackingId);
             }
             else
             {
-                instrument.Stop();
+                instrument.Stop(trackingId);               
             }
         }
     }

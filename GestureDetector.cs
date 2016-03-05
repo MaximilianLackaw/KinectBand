@@ -174,10 +174,18 @@ namespace Kinect.KinectBand
             using (VisualGestureBuilderFrame frame = frameReference.AcquireFrame())
             {
                 var recognized = GetRecognizedGestures(frame, this.vgbFrameSource.Gestures).ToList();
+                ulong trackingId = 0;
+                ////try
+                ////{
+                ////    trackingId = frame.TrackingId;
+                ////}
+                ////catch (Exception)
+                ////{
+                ////}
 
                 recognized.ForEach(x =>
                 {
-                    x.UpdateGestureResult();
+                    x.UpdateGestureResult(trackingId);
                 });
 
                 ////if (frame != null)
