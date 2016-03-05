@@ -5,7 +5,7 @@ using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Samples.Kinect.DiscreteGestureBasics.Instruments
+namespace Kinect.KinectBand.Instruments
 {
     public interface IInstrument
     {

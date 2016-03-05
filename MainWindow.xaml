@@ -1,7 +1,7 @@
-﻿<Window x:Class="Microsoft.Samples.Kinect.DiscreteGestureBasics.MainWindow"
+﻿<Window x:Class="Kinect.KinectBand.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:Microsoft.Samples.Kinect.DiscreteGestureBasics"
+        xmlns:local="clr-namespace:Kinect.KinectBand"
         Title="Discrete Gesture Basics"
         Height="650" Width="750"
         Closing="MainWindow_Closing">

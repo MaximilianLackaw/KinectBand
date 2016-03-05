@@ -11,7 +11,7 @@
 // </Description>
 //----------------------------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
+namespace Kinect.KinectBand
 {
     using System;
     using System.Collections.Generic;
